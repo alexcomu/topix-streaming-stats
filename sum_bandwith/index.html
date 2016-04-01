@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dsnap - Charts</title>
+    <style>
+        #xaxis .domain {
+            fill:none;
+            stroke:#000;
+        }
+        #xaxis text, #yaxis text {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+</div>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+    var applications= ['"2012_berlinale_ext_pkd"', '"2012_berlinale_ext_pke"', '"2012_berlinale_film"', '"2012_berlinale_pkd"', '"2012_berlinale_pke"', '"2012_berlinale_rt"', '"2012_berlinale_tc1"', '"2012_berlinale_tc2"', '"2013_berlinale_ext_pkd"', '"2013_berlinale_ext_pke"', '"2013_berlinale_pkd"', '"2013_berlinale_pke"', '"2013_berlinale_rt"', '"2013_berlinale_rtd"', '"2013_berlinale_rte"', '"2014_berlinale_ext_pkd"', '"2014_berlinale_ext_pke"', '"2014_berlinale_film"', '"2014_berlinale_pkd"', '"2014_berlinale_pke"', '"2014_berlinale_rtd"', '"2014_berlinale_rte"',  '"2015_berlinale_ext_pkd"', '"2015_berlinale_ext_pke"', '"2015_berlinale_film"', '"2015_berlinale_pkd"', '"2015_berlinale_pke"', '"2015_berlinale_prt_pkd"', '"2015_berlinale_prt_pke"', '"2015_berlinale_rtd"', '"2015_berlinale_rte"', '"2016_berlinale_enc"', '"2016_berlinale_ext_pkd"', '"2016_berlinale_ext_pke"', '"2016_berlinale_film"', '"2016_berlinale_pkd"', '"2016_berlinale_pke"', '"2016_berlinale_rtd"', '"2016_berlinale_rte"']
+
+    var values = [131160027, 3022354, 51456213, 1174805614, 2314368543, 4783682881, 72637117, 13644927, 70699779, 16414667, 1263442745, 1105599933, 18337, 1148112396, 1371597492, 139776811, 201409018, 808158267, 1500836140, 1496855016, 1515846674, 1564646035, 61768412, 135453209, 444500608, 2331935842, 3339254767, 5175364, 6498380, 1967999057, 2677823334, 847054727, 170499185, 44296404, 107563619, 3723372536, 1977318240, 4284674970, 3040252582];
+
+    var colors = ['#0000b4','#0082ca','#0094ff','#0d4bcf','#0066AE','#074285','#00187B','#285964','#405F83','#416545','#4D7069','#6E9985','#7EBC89','#0283AF','#79BCBF','#99C19E','#0000b4','#0082ca','#0094ff','#0d4bcf','#0066AE','#074285','#00187B','#285964','#405F83','#416545','#4D7069','#6E9985','#7EBC89','#0283AF','#79BCBF','#99C19E'];
+
+    var grid = d3.range(25).map(function(i){
+        return {'x1':0,'y1':0,'x2':0,'y2':480};
+    });
+
+    var tickVals = grid.map(function(d,i){
+        if(i>0){ return i*10; }
+        else if(i===0){ return "100";}
+    });
+
+    var xscale = d3.scale.linear()
+            .domain([10,5000000000])
+            .range([0,722]);
+
+    var yscale = d3.scale.linear()
+            .domain([0,applications.length])
+            .range([0,1000]);
+
+    var colorScale = d3.scale.quantize()
+            .domain([0,applications.length])
+            .range(colors);
+
+    var canvas = d3.select('#wrapper')
+            .append('svg')
+            .attr({'width':1024,'height':1024});
+
+//    var grids = canvas.append('g')
+//            .attr('id','grid')
+//            .attr('transform','translate(150,10)')
+//            .selectAll('line')
+//            .data(grid)
+//            .enter()
+//            .append('line')
+//            .attr({'x1':function(d,i){ return i*30; },
+//                'y1':function(d){ return d.y1; },
+//                'x2':function(d,i){ return i*30; },
+//                'y2':function(d){ return d.y2; },
+//            })
+//            .style({'stroke':'#adadad','stroke-width':'1px'});
+
+    var xAxis = d3.svg.axis();
+        xAxis.orient('bottom')
+            .scale(xscale)
+            .tickValues(tickVals);
+
+    var yAxis = d3.svg.axis();
+        yAxis.orient('left')
+            .scale(yscale)
+            .tickSize(2)
+            .tickFormat(function(d,i){ return applications[i]; })
+            .tickValues(d3.range(100));
+
+    var y_xis = canvas.append('g')
+            .attr("transform", "translate(150,30)")
+            .attr('id','yaxis')
+            .call(yAxis);
+
+//    var x_xis = canvas.append('g')
+//            .attr("transform", "translate(150,480)")
+//            .attr('id','xaxis')
+//            .call(xAxis);
+
+    var chart = canvas.append('g')
+            .attr("transform", "translate(150,0)")
+            .attr('id','bars')
+            .selectAll('rect')
+            .data(values)
+            .enter()
+            .append('rect')
+            .attr('height',19)
+            .attr({'x':0,'y':function(d,i){ return yscale(i)+19; }})
+            .style('fill',function(d,i){ return colorScale(i); })
+            .attr('width',function(d){ return 0; });
+
+
+    var transit = d3.select("svg").selectAll("rect")
+            .data(values)
+            .transition()
+            .duration(1000)
+            .attr("width", function(d) {return xscale(d); });
+
+    function pretty_print_kb(kbytes){
+        kbytes = parseInt(kbytes);
+        if(kbytes<1024){
+            return (kbytes.toFixed(2).toString())+" KB";
+        }else if(kbytes > 1024 && kbytes < 1048576){
+            return (kbytes/1024).toFixed(2).toString()+" MB";
+        }else if(kbytes > 1048576 && kbytes < 1073741824){
+            return (kbytes/1048576).toFixed(2).toString()+" GB";
+        }else{
+            return (kbytes/1073741824).toFixed(2).toString()+ " TB";
+        }
+    }
+
+    var transitext = d3.select('#bars')
+            .selectAll('text')
+            .data(values)
+            .enter()
+            .append('text')
+            .attr({'x':function(d) {return xscale(d); },'y':function(d,i){ return yscale(i)+35; }})
+            .text(function(d){ return pretty_print_kb(d); }).style({'fill':'red','font-size':'14px'});
+
+
+
+</script>
+</body>
+</html>
