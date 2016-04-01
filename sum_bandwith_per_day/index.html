@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+body { font: 12px Arial;}
+
+path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+</style>
+<body>
+
+<!-- load the d3.js library -->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+    // Set the dimensions of the canvas / graph
+    var margin = {top: 250, right: 20, bottom: 30, left: 50},
+            width = 1024 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+    var linearScale = d3.scale.linear()
+                    .domain([0, 5986943492])
+                    .range([0, 200]);
+
+    // Set the ranges
+    var x = d3.scale.linear().range([0, 928]);
+    var y = d3.scale.linear().range([height*1.5, 0]);
+
+    // Scale the range of the data
+    //x.domain(d3.extent(data, function(d) { return d.x; }));
+    x.domain([0, 29]);
+    y.domain([0, 6000]);
+
+    // Define the axes
+    var xAxis = d3.svg.axis().scale(x)
+            .orient("bottom").ticks(29);
+
+    var yAxis = d3.svg.axis().scale(y)
+            .orient("left").ticks(10);
+
+
+    var lineFunction = d3.svg.line()
+                         .x(function(d) { return d.x*32; })
+                         .y(function(d) { return -linearScale(d.y)*1.5; })
+                         .interpolate("linear");
+
+
+    // Adds the svg canvas
+    var svg = d3.select("body")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(50, 450)");
+
+    // Add the X Axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0,-25)")
+        .call(xAxis);
+
+    // Add the Y Axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(-5,-380)")
+        .call(yAxis);
+
+
+    d3.json("/2012.json", function(data) {
+        svg.append("path")
+                .attr("d", lineFunction(data))
+                .style("stroke", "blue")
+                .style("stroke-width", 2)
+                .attr("transform", "translate(0, -50)")
+                .style("fill", "none");
+    });
+    d3.json("/2013.json", function(data) {
+        svg.append("path")
+                .attr("d", lineFunction(data))
+                .style("stroke", "red")
+                .style("stroke-width", 2)
+                .attr("transform", "translate(0, -50)")
+                .style("fill", "none");
+    });
+    d3.json("/2014.json", function(data) {
+        svg.append("path")
+                .attr("d", lineFunction(data))
+                .style("stroke", "green")
+                .style("stroke-width", 2)
+                .attr("transform", "translate(0, -50)")
+                .style("fill", "none");
+    });
+    d3.json("/2015.json", function(data) {
+        svg.append("path")
+                .attr("d", lineFunction(data))
+                .style("stroke", "violet")
+                .style("stroke-width", 2)
+                .attr("transform", "translate(0, -50)")
+                .style("fill", "none");
+    });
+    d3.json("/2016.json", function(data) {
+        svg.append("path")
+                .attr("d", lineFunction(data))
+                .style("stroke", "grey")
+                .style("stroke-width", 2)
+                .attr("transform", "translate(0, -50)")
+                .style("fill", "none");
+    });
+</script>
+</body>
