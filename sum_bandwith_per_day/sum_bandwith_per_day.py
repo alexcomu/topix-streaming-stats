@@ -47,7 +47,7 @@ class MRSumBandwithPerDay(MRJob):
          client_ip, length_stream, kbyte_transf,
          client_type, server_name, wowza_instance, stream_name) = line.split(";")
         timestamp_start_dt_ver = dt.fromtimestamp(int(timestamp_start))
-        if timestamp_start_dt_ver.day<10:
+        if timestamp_start_dt_ver.day < 10:
             yield "0%s" % (timestamp_start_dt_ver.day), int(kbyte_transf)
         else:
             yield str(timestamp_start_dt_ver.day), int(kbyte_transf)
