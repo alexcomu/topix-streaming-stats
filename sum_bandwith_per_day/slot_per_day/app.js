@@ -11,7 +11,7 @@ angular.module("comuapp",[])
         };
 
         $scope.changeChoice = function(){
-            $http.get("/aggregated_"+$scope.choice+"_perslot.json").success(function(result){
+            $http.get("/result/aggregated_"+$scope.choice+"_perslot.json").success(function(result){
                 $scope.result = result;
                 $scope.loading = false;
             });
