@@ -79,7 +79,7 @@ path {
         .call(yAxis);
 
 
-    d3.json("/2012.json", function(data) {
+    d3.json("/result/2012.json", function(data) {
         svg.append("path")
                 .attr("d", lineFunction(data))
                 .style("stroke", "blue")
@@ -87,7 +87,7 @@ path {
                 .attr("transform", "translate(0, -50)")
                 .style("fill", "none");
     });
-    d3.json("/2013.json", function(data) {
+    d3.json("/result/2013.json", function(data) {
         svg.append("path")
                 .attr("d", lineFunction(data))
                 .style("stroke", "red")
@@ -95,7 +95,7 @@ path {
                 .attr("transform", "translate(0, -50)")
                 .style("fill", "none");
     });
-    d3.json("/2014.json", function(data) {
+    d3.json("/result/2014.json", function(data) {
         svg.append("path")
                 .attr("d", lineFunction(data))
                 .style("stroke", "green")
@@ -103,7 +103,7 @@ path {
                 .attr("transform", "translate(0, -50)")
                 .style("fill", "none");
     });
-    d3.json("/2015.json", function(data) {
+    d3.json("/result/2015.json", function(data) {
         svg.append("path")
                 .attr("d", lineFunction(data))
                 .style("stroke", "violet")
@@ -111,7 +111,7 @@ path {
                 .attr("transform", "translate(0, -50)")
                 .style("fill", "none");
     });
-    d3.json("/2016.json", function(data) {
+    d3.json("/result/2016.json", function(data) {
         svg.append("path")
                 .attr("d", lineFunction(data))
                 .style("stroke", "grey")
