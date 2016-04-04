@@ -30,8 +30,8 @@ def process(filename):
                         print "Slot",slot,"\t->\t0\t\t0 %"
                         tmp.append({"slot": slot, "perc": 0, "bytes":0})
                 result.append(tmp)
-        with open("aggregated_%s"%filename,"w") as write_f:
-            write_f.write(json.dumps(result))
+        # with open("aggregated_%s"%filename,"w") as write_f:
+        #     write_f.write(json.dumps(result))
 
 
 
