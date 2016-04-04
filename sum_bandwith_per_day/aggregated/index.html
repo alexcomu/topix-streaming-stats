@@ -1,52 +1,60 @@
 <!DOCTYPE html>
     <head>
         <meta charset="utf-8">
-        <style> /* set the CSS */
-            body { font: 12px Arial;}
-        </style>
-            <script src="http://d3js.org/d3.v3.min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     </head>
-    <body>
-        <table id="split">
-      <thead></thead>
-      <tbody></tbody>
-    </table>
-        <!-- load the d3.js library -->
-        <script>
-            // Set the dimensions of the canvas / graph
-            var margin = {top: 30, right: 20, bottom: 30, left: 50},
-                width = 600 - margin.left - margin.right,
-                height = 270 - margin.top - margin.bottom;
+    <body ng-app="comuapp">
+        <div class="container" ng-controller="ComuCtrl" ng-init="initPage()">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Change year to see the magic
+                        <div class="pull-right">
+                            <select class="form-control" ng-model="choice" ng-change="changeChoice()">
+                              <option>2012</option>
+                              <option>2013</option>
+                              <option>2014</option>
+                              <option>2015</option>
+                              <option>2016</option>
+                            </select>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Day</th>
+                            <th>Total</th>
+                            <th>Slot 8-10</th>
+                            <th>Slot 10-12</th>
+                            <th>Slot 12-14</th>
+                            <th>Slot 14-16</th>
+                            <th>Slot 16-18</th>
+                            <th>Slot 18-20</th>
+                            <th>Slot 20-22</th>
+                            <th>Slot 22-24</th>
+                        </tr>
+                        <tr ng-repeat="value in result">
+                            <td ng-bind="value['day']"></td>
+                            <td ng-bind="value['total']"></td>
+                            <td ng-repeat="slot in value['value']" style="background-color: rgba(30,144,255, {{slot['perc']/100}});">
+                                {{slot['perc']}} % <br/> {{slot['bytes']}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-            var headers = new Array(
-                {slot: 1, bytes: 50, perc: 0}
-            );
-
-            // Adds the svg canvas
-            var svg = d3.select("body")
-                .append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
-                    .append("g");
-
-            d3.json("/aggregated_2012_perslot.json", function(data) {
-                console.log(data);
-
-                var thead = d3.select("thead").selectAll("th")
-                    .data(d3.keys(headers[0]))
-                    .enter().append("th").text(function(d){return d});
-
-                // fill the table
-                // create rows
-                var tr = d3.select("tbody").selectAll("tr")
-                    .data(data[3]).enter().append("tr")
-                    // cells
-                var td = tr.selectAll("td")
-                  .data(function(d){return d3.values(d)})
-                  .enter().append("td")
-                  .text(function(d) {return d})
-
-            });
-        </script>
+        <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+        <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+        <script type="application/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script type="application/javascript" src="/app.js"></script>
     </body>
 </html>
