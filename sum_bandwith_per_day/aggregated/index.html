@@ -12,20 +12,20 @@
             <div class="row">
                 <div class="col-md-8">
                     <h3>Berlinale Streaming Report - TOPIX Platform</h3>
-                    <h4>Change year to see the magic
-                        <div class="pull-right">
-                            <select class="form-control" ng-model="choice" ng-change="changeChoice()">
-                              <option>2012</option>
-                              <option>2013</option>
-                              <option>2014</option>
-                              <option>2015</option>
-                              <option>2016</option>
-                            </select>
-                        </div>
-                    </h4>
+                    <h4>Change year to see the magic <span ng-if="loading" style="color: red;">Loading...</span></h4>
+                    <div class="pull-left">
+                        <select class="form-control" ng-model="choice" ng-change="loading=true;changeChoice()">
+                          <option>2012</option>
+                          <option>2013</option>
+                          <option>2014</option>
+                          <option>2015</option>
+                          <option>2016</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="row">
+            <hr/>
+            <div class="row text-center">
                 <div class="col-md-12">
                     <table class="table table-striped">
                         <tr>
@@ -42,7 +42,7 @@
                         </tr>
                         <tr ng-repeat="value in result">
                             <td ng-bind="value['day']"></td>
-                            <td ng-bind="value['total']"></td>
+                            <td ng-bind="value['total']" style="background-color: rgba(79, 198, 115, 0.5)"></td>
                             <td ng-repeat="slot in value['value']" style="background-color: rgba(30,144,255, {{slot['perc']/100}});">
                                 {{slot['perc']}} % <br/> {{slot['bytes']}}
                             </td>
