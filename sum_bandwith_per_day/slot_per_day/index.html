@@ -1,27 +1,49 @@
 <!DOCTYPE html>
     <head>
         <meta charset="utf-8">
+        <style>
+            [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+                display: none !important;
+            }
+        </style>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     </head>
-    <body ng-app="comuapp">
+    <body ng-app="comuapp" class="ng-cloak">
         <div class="container" ng-controller="ComuCtrl" ng-init="initPage()">
             <div class="row">
                 <div class="col-md-8">
                     <h3>Berlinale Streaming Report - TOPIX Platform</h3>
                     <h4>Change year to see the magic <span ng-if="loading" style="color: red;">Loading...</span></h4>
                     <div class="pull-left">
-                        <select class="form-control" ng-model="choice" ng-change="loading=true;changeChoice()">
-                          <option>2012</option>
-                          <option>2013</option>
-                          <option>2014</option>
-                          <option>2015</option>
-                          <option>2016</option>
-                        </select>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="year">Year</label>
+                                <select id="year" class="form-control" ng-model="year_choice" ng-change="loading=true;changeChoice();">
+                                    <option>2012</option>
+                                    <option>2013</option>
+                                    <option>2014</option>
+                                    <option>2015</option>
+                                    <option>2016</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="appname">App Name</label>
+                                <select id="appname" class="form-control" ng-model="app_choice" ng-change="loading=true;changeChoice();">
+                                    <option>ALL</option>
+                                    <option>pk</option>
+                                    <option>rt</option>
+                                    <option ng-hide="year_choice==2012">film</option>
+                                </select>
+                            </div>
+                        </form>
                     </div>
+                </div>
+                <div class="col-md-12">
+                    <h4 ng-bind="view_message" style="color: steelblue"></h4>
                 </div>
             </div>
             <hr/>
