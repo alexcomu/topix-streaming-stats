@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dsnap - Charts</title>
+    <title>Berlinale Apps - Charts</title>
     <style>
         #xaxis .domain {
             fill:none;
@@ -48,20 +48,6 @@
             .append('svg')
             .attr({'width':1024,'height':1024});
 
-//    var grids = canvas.append('g')
-//            .attr('id','grid')
-//            .attr('transform','translate(150,10)')
-//            .selectAll('line')
-//            .data(grid)
-//            .enter()
-//            .append('line')
-//            .attr({'x1':function(d,i){ return i*30; },
-//                'y1':function(d){ return d.y1; },
-//                'x2':function(d,i){ return i*30; },
-//                'y2':function(d){ return d.y2; },
-//            })
-//            .style({'stroke':'#adadad','stroke-width':'1px'});
-
     var xAxis = d3.svg.axis();
         xAxis.orient('bottom')
             .scale(xscale)
@@ -79,10 +65,6 @@
             .attr('id','yaxis')
             .call(yAxis);
 
-//    var x_xis = canvas.append('g')
-//            .attr("transform", "translate(150,480)")
-//            .attr('id','xaxis')
-//            .call(xAxis);
 
     var chart = canvas.append('g')
             .attr("transform", "translate(150,0)")
@@ -123,7 +105,6 @@
             .append('text')
             .attr({'x':function(d) {return xscale(d); },'y':function(d,i){ return yscale(i)+35; }})
             .text(function(d){ return pretty_print_kb(d); }).style({'fill':'red','font-size':'14px'});
-
 
 
 </script>

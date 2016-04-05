@@ -25,13 +25,16 @@ def process(filename):
                 tmp["total"] = readable_bytes(tot_kbytes)
                 for slot in slots:
                     if str(slot) in data[str(day)]:
-                        print "Slot",slot,"\t->\t",round((float(data[str(day)][str(slot)])*100)/tot_kbytes, 2),"%\t\t",readable_bytes(int(data[str(day)][str(slot)]))
-                        tmp["value"].append({"slot":slot, "perc": round((float(data[str(day)][str(slot)])*100)/tot_kbytes, 2), "bytes":readable_bytes(int(data[str(day)][str(slot)]))})
+                        try:
+                            print "Slot",slot,"\t->\t",round((float(data[str(day)][str(slot)])*100)/tot_kbytes, 2),"%\t\t",readable_bytes(int(data[str(day)][str(slot)]))
+                            tmp["value"].append({"slot":slot, "perc": round((float(data[str(day)][str(slot)])*100)/tot_kbytes, 2), "bytes":readable_bytes(int(data[str(day)][str(slot)]))})
+                        except:
+                            print "Slot",slot,"\t->\t0\t\t0 %"
                     else:
                         print "Slot",slot,"\t->\t0\t\t0 %"
                         tmp["value"].append({"slot": slot, "perc": 0, "bytes":0})
                 result.append(tmp)
-        with open("aggregated/aggregated_%s"%filename,"w") as write_f:
+        with open("aggregated_%s"%filename,"w") as write_f:
             write_f.write(json.dumps(result))
 
 

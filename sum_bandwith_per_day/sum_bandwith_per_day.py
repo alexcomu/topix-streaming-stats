@@ -24,10 +24,11 @@ class MRSumBandwithPerDayPerSlot(MRJob):
          client_ip, length_stream, kbyte_transf,
          client_type, server_name, wowza_instance, stream_name) = line.split(";")
         timestamp_start_dt_ver = dt.fromtimestamp(int(timestamp_start))
-        for idx, value in enumerate(range_values):
-            if timestamp_start_dt_ver.hour < value:
-                yield "%s_%s" % (timestamp_start_dt_ver.day, idx), int(kbyte_transf)
-                break
+        if app_name == "berlinale_rte" or app_name == "berlinale_rtd" or app_name == "berlinale_rt":
+            for idx, value in enumerate(range_values):
+                if timestamp_start_dt_ver.hour < value:
+                    yield "%s_%s" % (timestamp_start_dt_ver.day, idx), int(kbyte_transf)
+                    break
 
     def sum_bandwith(self, key, occurrences):
         yield key, str(sum(occurrences))
