@@ -3,8 +3,6 @@
         <meta charset="utf-8">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     </head>
     <body ng-app="comuapp" class="ng-cloak">
         <div class="container" ng-controller="ComuCtrl" >
@@ -13,7 +11,7 @@
                     <h3>Berlinale Streaming Report - TOPIX Platform</h3>
                     <h4>Focus On <strong>11 February, 2016</strong></h4>
                     <h4>Range From <strong>18:00</strong> to <strong>20:00</strong></h4>
-                    <h4 id="stats"></h4>
+                    <h4>Max user at the same time <strong>793</strong> at time: <strong>19:18 and 52 seconds</strong></h4>
                 </div>
             </div>
             <hr/>
@@ -23,9 +21,7 @@
                 </div>
             </div>
         </div>
-        <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
         <script type="application/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-        <script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script>
 
             function printHour(i){
@@ -41,6 +37,7 @@
                 // Adds the svg canvas
                 data_keys = d3.keys(data);
                 data_values = d3.values(data);
+
                 var xLinearScale = d3.scale.linear()
                             .domain([0,data_keys.length])
                             .range([30,690]);
