@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    </head>
+    <body ng-app="comuapp" class="ng-cloak">
+        <div class="container" ng-controller="ComuCtrl" >
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Berlinale Streaming Report - TOPIX Platform</h3>
+                    <h4>Focus On <strong>11 February, 2016</strong></h4>
+                    <h4>Range From <strong>18:00</strong> to <strong>20:00</strong></h4>
+                    <h4 id="stats"></h4>
+                </div>
+            </div>
+            <hr/>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <svg></svg>
+                </div>
+            </div>
+        </div>
+        <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+        <script type="application/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+        <script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script>
+
+            function printHour(i){
+                if(i<6){
+                    return "18:"+ i.toString()+"0";
+                }else if(i<12){
+                    return "19:"+ (i-6).toString()+"0";
+                }
+                return "20:00";
+            }
+
+            d3.json("/result.json", function(data){
+                // Adds the svg canvas
+                data_keys = d3.keys(data);
+                data_values = d3.values(data);
+                var xLinearScale = d3.scale.linear()
+                            .domain([0,data_keys.length])
+                            .range([30,690]);
+
+
+                var yLinearScale = d3.scale.linear()
+                            .domain([0, d3.max(data_values)])
+                            .range([450, 50]);
+
+                function setX(i){
+                    return xLinearScale(i);
+                }
+                function setY(i){
+                    return yLinearScale(data_values[i]);
+                }
+
+                var svg = d3.select("svg")
+                    .attr("width", 800)
+                    .attr("height", 600);
+
+                svg.append('line')
+                    .attr('x1', 30)
+                    .attr('y1', 450)
+                    .attr('x2', 30)
+                    .attr('y2', 50)
+                    .style('stroke-width', 1)
+                    .style('stroke', 'black');
+
+                svg.append('line')
+                    .attr('x1', 30)
+                    .attr('y1', 450)
+                    .attr('x2', 700)
+                    .attr('y2', 450)
+                    .style('stroke-width', 1)
+                    .style('stroke', 'black');
+
+                for (var i = 0; i < 11; i++) {
+                    svg.append('line')
+                        .attr('x1', 25)
+                        .attr('y1', 450 - (i * 40))
+                        .attr('x2', 35)
+                        .attr('y2', 450 - (i * 40))
+                        .style('stroke-width', 1)
+                        .style('stroke', 'black');
+
+                    svg.append('line')
+                        .attr('x1', 25)
+                        .attr('y1', 450 - (i * 40))
+                        .attr('x2', 700)
+                        .attr('y2', 450 - (i * 40))
+                        .style('stroke-width', 0.3)
+                        .style('stroke', 'grey');
+
+                    svg.append('text')
+                        .text(i*80)
+                        .style('text-anchor', 'end')
+                        .attr('x', 25)
+                        .attr('y', 450 - (i * 40) + 5);
+                }
+
+                for (var i = 0; i < 13; i++) {
+                    svg.append('line')
+                        .attr('x1', 25 + (i*55) +5)
+                        .attr('y1', 445)
+                        .attr('x2', 25 + (i*55) +5)
+                        .attr('y2', 455)
+                        .style('stroke-width', 1)
+                        .style('stroke', 'black');
+
+                    svg.append('line')
+                        .attr('x1', 25 + (i*55) +5)
+                        .attr('y1', 30)
+                        .attr('x2', 25 + (i*55) +5)
+                        .attr('y2', 455)
+                        .style('stroke-width', 0.3)
+                        .style('stroke', 'grey');
+
+                    svg.append('text')
+                        .text(printHour(i))
+                        .style('text-anchor', 'middle')
+                        .attr('x', 25 + (i*55) + 5)
+                        .attr('y', 470);
+
+                }
+
+                for (var i = 0; i < data_keys.length; i++) {
+                    svg.append("circle")
+                        .attr("cx", function (d) { return setX(i);})
+                        .attr("cy", function (d) { return setY(i);})
+                        .attr("r", "1px")
+                        .attr("fill", "blue")
+                }
+
+
+
+
+                });
+
+
+        </script>
+    </body>
+</html>
