@@ -2,7 +2,7 @@ __author__ = 'alexcomu'
 from mrjob.job import MRJob
 from mrjob.step import MRStep
 from datetime import datetime as dt
-from mrjob.protocol import RawProtocol, JSONValueProtocol
+from mrjob.protocol import RawProtocol
 
 # Data Format
 # berlinale_film;  1454331524;  995823735;  213.61.32.110; 3;            1580;          0;            wowza02-f;    _definst_;  2010_Heimatland_web.mp4
