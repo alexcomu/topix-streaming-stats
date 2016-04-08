@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 mr_job = MRSumKbytesPerDeviceType()
-mr_job.stdin = open('../../berlinale_csv/berlinale_aggregated.csv')
+mr_job.stdin = open('../../MY.csv')
 
 result = {}
 with mr_job.make_runner() as runner:

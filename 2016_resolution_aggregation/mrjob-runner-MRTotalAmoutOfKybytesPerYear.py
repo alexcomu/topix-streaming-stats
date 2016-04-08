@@ -12,7 +12,7 @@ def readable_bytes(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 mr_job = MRSumIPNumber()
-mr_job.stdin = open('../../berlinale_csv/berlinale_aggregated.csv')
+mr_job.stdin = open('/file.csv')
 
 result = {}
 with mr_job.make_runner() as runner:

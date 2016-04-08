@@ -12,7 +12,7 @@ def readable_bytes(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 mr_job = MRStreamAggregator()
-mr_job.stdin = open('../../berlinale_csv/2016_berlinale.csv')
+mr_job.stdin = open('/2016.csv')
 
 result = {}
 with mr_job.make_runner() as runner:

@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 mr_job = MREvaluateHour()
-mr_job.stdin = open('../../berlinale_csv/2016_berlinale.csv')
+mr_job.stdin = open('../../MY.csv')
 
 result = {}
 keys = []
