@@ -5,7 +5,7 @@ from datetime import datetime as dt
 from mrjob.protocol import RawProtocol
 
 # Data Format
-# berlinale_film;  1454331524;  995823735;  213.61.32.110; 3;            1580;          0;            wowza02-f;    _definst_;  2010_Heimatland_web.mp4
+# berlinale_film;  1454331524;  995823735;  213.61.32.110; 3;            1580;          0;            wowza02-f;    _definst_;  stream_name.mp4
 # app-name;        timestamp;   session-id; client-IP;     length(sec);  kbyte-transf;  client-type;  nome-server;  instance;   nome-stream;
 
 range_values = [10, 12, 14, 16, 18, 20, 22, 24]

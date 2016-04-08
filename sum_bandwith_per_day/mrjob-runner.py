@@ -6,7 +6,6 @@ logging.basicConfig(level=logging.INFO)
 
 
 mr_job = MRSumBandwithPerDayPerSlot()
-#mr_job.stdin = open('berlinale_csv/berlinale_aggregated.csv')
 mr_job.stdin = open('../MY/MY.csv')
 
 result = {}

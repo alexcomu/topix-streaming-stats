@@ -7,7 +7,6 @@ logging.basicConfig(level=logging.INFO)
 
 mr_job = MRSumBandwithPerApp()
 mr_job.stdin = open('/MY.csv')
-#mr_job.stdin = open('/MY.csv')
 
 result = {}
 with mr_job.make_runner() as runner:
