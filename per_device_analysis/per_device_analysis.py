@@ -35,6 +35,27 @@ class MRSumKbytesPerDeviceType(MRJob):
     def sum_bandwith(self, key, kbytes):
         yield key, readable_bytes(sum(kbytes))
 
+class MRTransmissionTimePerDevice(MRJob):
+    '''
+    For each year and for each device calculate the avarage transmission time
+    '''
+
+    def steps(self):
+        return [
+            MRStep(mapper=self.year_device_seconds_mapper, reducer=self.avarage_reducer)
+        ]
+
+    def year_device_seconds_mapper(self, _, line):
+        (app_name, timestamp_start, session_id,
+         client_ip, length_stream, kbyte_transf,
+         client_type, server_name, wowza_instance, stream_name) = line.split(";")
+        timestamp_start_dt_ver = dt.fromtimestamp(int(timestamp_start))
+        if timestamp_start_dt_ver.year != 2016:
+            yield (timestamp_start_dt_ver.year, client_type), int(length_stream)
+
+    def avarage_reducer(self, key, length_values):
+        yield key, sum(length_values)
+
 
 class MRAvarageTransmissionTime(MRJob):
     '''
@@ -113,4 +134,4 @@ class MRAmountOfSeconds(MRJob):
 
 
 if __name__ == '__main__':
-    MRAmountOfSeconds.run()
+    MRTransmissionTimePerDevice.run()
