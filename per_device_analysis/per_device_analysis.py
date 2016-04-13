@@ -16,7 +16,7 @@ def readable_bytes(num, suffix='B'):
 
 class MRSumKbytesPerDeviceType(MRJob):
     '''
-    Sum the total kybets transmitted per device each year
+    Sum the total kbytes transmitted per device each year
     '''
 
     def steps(self):
@@ -132,6 +132,26 @@ class MRAmountOfSeconds(MRJob):
     def avarage_reducer(self, key, length_stream):
         yield key, sum(length_stream)
 
+class MRAmountOfSecondsPerYear(MRJob):
+    '''
+    Total of seconds for 2016 transmissions
+    '''
+
+    def steps(self):
+        return [
+            MRStep(mapper=self.app_seconds_mapper, reducer=self.avarage_reducer)
+        ]
+
+    def app_seconds_mapper(self, _, line):
+        (app_name, timestamp_start, session_id,
+         client_ip, length_stream, kbyte_transf,
+         client_type, server_name, wowza_instance, stream_name) = line.split(";")
+        timestamp_start_dt_ver = dt.fromtimestamp(int(timestamp_start))
+        yield timestamp_start_dt_ver.year, int(length_stream)
+
+    def avarage_reducer(self, key, length_stream):
+        yield key, sum(length_stream)
+
 
 if __name__ == '__main__':
-    MRTransmissionTimePerDevice.run()
+    MRAmountOfSecondsPerYear.run()
