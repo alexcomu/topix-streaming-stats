@@ -21,7 +21,6 @@ class MREvaluateGeolocation(MRJob):
             if resp_json["status"] == 200:
                 yield resp_json["geoip"]["country_code"], 1
 
-
     def sum_aggregation(self, country, occurrences):
         yield country, sum(occurrences)
 
